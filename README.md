@@ -12,3 +12,6 @@ jquery 1.4.2
 
 Add the following to your $(document).ready section
     $(":input").enter_override();
+
+Or if you want to allow enter to submit when on top of the submit button:
+    $(":input").enter_override({submit_after: true});
