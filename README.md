@@ -11,4 +11,4 @@ jquery 1.4.2
 #Use
 
 Add the following to your $(document).ready section
-  $(":input").enter_override();
+    $(":input").enter_override();
