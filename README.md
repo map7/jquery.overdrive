@@ -25,7 +25,9 @@ Allowing a some jump fields
 Jump fields and setting the jump key to keyCode 122 which is F11.
     $(":input").overdrive({submit_after: true, jump: ['product_name', 'product_code'], jump_key_code: 122});
 
-
+Allow F12 to submit the form.    
+    $(":input").overdrive({submit_key_code: 123});
+    
 #TODO
 
 Other features I envision being part of this plugin are:
