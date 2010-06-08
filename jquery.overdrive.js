@@ -1,10 +1,10 @@
 /*
- * jQuery enter_override
+ * jQuery overdrive
  *
 */
 
 // Set default options
-$.enter_override = {
+$.overdrive = {
     defaults: {
 	submit_after: false,
 	jump: [],
@@ -12,10 +12,10 @@ $.enter_override = {
     }
 };
 
-$.fn.enter_override = function(options) {
+$.fn.overdrive = function(options) {
 
     // Combine all the options overriding any defaults we may define.
-    options = $.extend($.enter_override.defaults, options);
+    options = $.extend($.overdrive.defaults, options);
 
     submit_after = options['submit_after'];
     jump = options['jump'];
@@ -84,4 +84,4 @@ $.fn.enter_override = function(options) {
 	field = fields[field_id];
 	return field;
     };
-}; // enter_override
+}; // overdrive
