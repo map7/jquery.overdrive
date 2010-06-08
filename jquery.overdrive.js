@@ -36,7 +36,7 @@ $.fn.overdrive = function(options) {
     });
 
     $(this).keydown(function(e) {
-	console.log(e.which);
+
 	// Detect if an enter was hit, 
 	if (e.which === 13){
 	    field = get_field(this);
