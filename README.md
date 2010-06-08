@@ -14,10 +14,10 @@ jquery 1.4.2
 #Use
 
 Add the following to your $(document).ready section
-    $(":input").enter_override();
+    $(":input").overdrive();
 
 Or if you want to allow enter to submit when on top of the submit button:
-    $(":input").enter_override({submit_after: true});
+    $(":input").overdrive({submit_after: true});
 
 Allowing a some jump fields
     $(":input").overdrive({submit_after: true, jump: ['product_name', 'product_code']});
