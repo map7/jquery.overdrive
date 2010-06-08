@@ -8,7 +8,8 @@ $.overdrive = {
     defaults: {
 	submit_after: false,
 	jump: [],
-	jump_key_code: 122, // F11
+	jump_key_code: 122,   // F11
+	submit_key_code: 0, // F12
 	arrow_nav: false
     }
 };
@@ -21,6 +22,7 @@ $.fn.overdrive = function(options) {
     submit_after = options['submit_after'];
     jump = options['jump'];
     jump_key_code = parseInt(options['jump_key_code']);
+    submit_key_code = options['submit_key_code'];
     arrow_nav = options['arrow_nav'];
 
     $(this).keypress(function(e){
@@ -66,7 +68,13 @@ $.fn.overdrive = function(options) {
 
 	    e.preventDefault();
 	    return false;
-	}// key==123 (f12)
+	}// key==122 (f11)
+
+	if (e.which === submit_key_code){
+	    $('form').submit();
+	    e.preventDefault();
+	    return false;
+	};
 
 	// Allow arrow up/down through fields in a form.
 	if (arrow_nav === true){
@@ -102,7 +110,7 @@ $.fn.overdrive = function(options) {
 		e.preventDefault();
 		return false;
 	    }; // up
-	};
+	}; // arrow
     }); // keydown
 
     function focus_jump(start){
