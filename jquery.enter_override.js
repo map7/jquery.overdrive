@@ -6,7 +6,9 @@
 // Set default options
 $.enter_override = {
     defaults: {
-	submit_after: false
+	submit_after: false,
+	jump: [],
+	jump_key_code: 123
     }
 };
 
@@ -16,8 +18,12 @@ $.fn.enter_override = function(options) {
     options = $.extend($.enter_override.defaults, options);
 
     submit_after = options['submit_after'];
+    jump = options['jump'];
+    jump_key_code = parseInt(options['jump_key_code']);
+
 
     $(this).keypress(function(e){
+	if (e.keyCode === jump_key_code) {e.preventDefault(); return false;};
 	if (e.which === 13) {
 	    field = get_field(this);
 	    
@@ -46,8 +52,31 @@ $.fn.enter_override = function(options) {
 	    
 	    e.preventDefault();
 	    return false;
-	}; // key==13
+	}; // key==13 (enter)
+
+
+	if (e.which === jump_key_code){
+	    fields = $(":input");
+	    field_id = fields.index(this);
+	    field = fields[field_id];
+	    
+	    jumped = focus_jump(field_id + 1);
+	    if (jumped === false) focus_jump(0);
+
+	    e.preventDefault();
+	    return false;
+	}// key==123 (f12)
     }); // keydown
+
+    function focus_jump(start){
+	for (var i = start; i < fields.length; i++){
+	    if(jump.indexOf(fields[i].id) > -1){
+		fields[i].focus();
+		return true;
+	    };
+	};
+	return false;
+    };
 
     function get_field(current){
 	fields = $(":input");
