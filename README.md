@@ -3,7 +3,7 @@
 Overdrive is used to add special key bindings to a form for productivity purposes.
 
 Overrides the enter button to a tab key.
-Allows you to define a set of fields to jump between.  The default hotkey for jumping fields is F12.  You can use a different key by defining it's keyCode as a parameter as shown below.
+Allows you to define a set of fields to jump between.  The default hotkey for jumping fields is F11.  You can use a different key by defining it's keyCode as a parameter as shown below.
 
 Based on: http://lysender.co.cc/2009/01/enter-to-tab-navigation-jquery-plugin/ and other such plugins.
 

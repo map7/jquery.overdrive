@@ -8,7 +8,8 @@ $.overdrive = {
     defaults: {
 	submit_after: false,
 	jump: [],
-	jump_key_code: 123
+	jump_key_code: 122, // F11
+	arrow_nav: false
     }
 };
 
@@ -20,7 +21,7 @@ $.fn.overdrive = function(options) {
     submit_after = options['submit_after'];
     jump = options['jump'];
     jump_key_code = parseInt(options['jump_key_code']);
-
+    arrow_nav = options['arrow_nav'];
 
     $(this).keypress(function(e){
 	if (e.keyCode === jump_key_code) {e.preventDefault(); return false;};
@@ -35,7 +36,7 @@ $.fn.overdrive = function(options) {
     });
 
     $(this).keydown(function(e) {
-
+	console.log(e.which);
 	// Detect if an enter was hit, 
 	if (e.which === 13){
 	    field = get_field(this);
@@ -66,6 +67,42 @@ $.fn.overdrive = function(options) {
 	    e.preventDefault();
 	    return false;
 	}// key==123 (f12)
+
+	// Allow arrow up/down through fields in a form.
+	if (arrow_nav === true){
+	    // get the current field id
+	    fields = $(":input");
+	    field_id = fields.index(this);
+	    field = fields[field_id];
+
+	    // if arrow down
+	    if (e.which === 40){
+		// check that we are not at the bottom
+		if (field_id <= fields.length - 2){
+		    next_field = fields[field_id + 1];
+		    next_field.focus();
+
+		    if (next_field.type != "select-one")
+			next_field.select();
+		};
+		e.preventDefault();
+		return false;
+	    }; //down
+	    
+	    // if arrow up
+	    if (e.which === 38){
+		// check that we are not at the bottom
+		if (field_id != 1){
+		    prev_field = fields[field_id - 1];
+		    prev_field.focus();
+
+		    if (prev_field.type != "select-one")
+			prev_field.select();
+		};
+		e.preventDefault();
+		return false;
+	    }; // up
+	};
     }); // keydown
 
     function focus_jump(start){
