@@ -32,7 +32,7 @@ $.fn.overdrive = function(options) {
 
     $(this).keypress(function(e){
 
-	console.log(e.which);
+	console.log("keypress: " + e.which);
 	
 	if (field_nav === true){
 	    // get the current field id
@@ -80,6 +80,8 @@ $.fn.overdrive = function(options) {
 
     $(this).keydown(function(e) {
 
+	console.log("keydown: " + e.which);
+	
 	// Detect if an enter was hit, 
 	if (e.which === 13){
 	    field = get_field(this);

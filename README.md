@@ -40,6 +40,4 @@ Example of field_nav overriding the default keybindings to '-' & '=' for up & do
 
 Other features I envision being part of this plugin are:
 
-* Ability to move between fields using up/down arrow keys
-
 * Key combinations to allow selecting of items in a list (binding 0 -> 9 keys for row selection).  This maybe good to put into a different plugin called 'jQuery.row_select' or something.
