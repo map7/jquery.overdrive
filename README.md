@@ -7,6 +7,8 @@ Allows you to define a set of fields to jump between.  The default hotkey for ju
 
 Based on: http://lysender.co.cc/2009/01/enter-to-tab-navigation-jquery-plugin/ and other such plugins.
 
+Tested using Firefox 3.6.
+
 #Requires
 
 jquery 1.4.2
@@ -27,6 +29,12 @@ Jump fields and setting the jump key to keyCode 122 which is F11.
 
 Allow F12 to submit the form.    
     $(":input").overdrive({submit_key_code: 123});
+
+Allow moving around fields with the characters '[' for up and ']' for down.  The user can also define their own.  I have had trouble using the up & down arrow as some browsers bring up a list on text fields.
+    $(":input").overdrive({field_nav: true });
+
+Example of field_nav overriding the default keybindings to '-' & '=' for up & down respectively.
+    $(":input").overdrive({field_nav: true, field_up: 45, field_down: 61 });
     
 #TODO
 

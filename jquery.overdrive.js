@@ -10,7 +10,9 @@ $.overdrive = {
 	jump: [],
 	jump_key_code: 122,   // F11
 	submit_key_code: 0, // F12
-	arrow_nav: false
+	field_nav: false,
+	field_up: 91,  // [ (up arrow is '38' but this has problems)
+	field_down: 93 // ] (down arrow is '40')
     }
 };
 
@@ -23,9 +25,48 @@ $.fn.overdrive = function(options) {
     jump = options['jump'];
     jump_key_code = parseInt(options['jump_key_code']);
     submit_key_code = options['submit_key_code'];
-    arrow_nav = options['arrow_nav'];
+    field_nav = options['field_nav'];
+    field_up = options['field_up'];
+    field_down = options['field_down'];
+
 
     $(this).keypress(function(e){
+
+	console.log(e.which);
+	
+	if (field_nav === true){
+	    // get the current field id
+	    fields = $(":input");
+	    field_id = fields.index(this);
+	    field = fields[field_id];
+
+	    if (e.which === field_down){
+		// check that we are not at the bottom
+		if (field_id <= fields.length - 2){
+		    next_field = fields[field_id + 1];
+		    next_field.focus();
+
+		    if (next_field.type != "select-one")
+			next_field.select();
+		};
+		e.preventDefault();
+		return false;
+	    }; //down
+	    
+	    if (e.which === field_up){
+		// check that we are not at the bottom
+		if (field_id != 1){
+		    prev_field = fields[field_id - 1];
+		    prev_field.focus();
+
+		    if (prev_field.type != "select-one")
+			prev_field.select();
+		};
+		e.preventDefault();
+		return false;
+	    }; // up
+	};
+
 	if (e.keyCode === jump_key_code) {e.preventDefault(); return false;};
 	if (e.which === 13) {
 	    field = get_field(this);
@@ -57,7 +98,7 @@ $.fn.overdrive = function(options) {
 	    return false;
 	}; // key==13 (enter)
 
-
+	// Jump to fields binding
 	if (e.which === jump_key_code){
 	    fields = $(":input");
 	    field_id = fields.index(this);
@@ -70,47 +111,20 @@ $.fn.overdrive = function(options) {
 	    return false;
 	}// key==122 (f11)
 
+	// Submit form binding
 	if (e.which === submit_key_code){
 	    $('form').submit();
 	    e.preventDefault();
 	    return false;
 	};
 
-	// Allow arrow up/down through fields in a form.
-	if (arrow_nav === true){
-	    // get the current field id
-	    fields = $(":input");
-	    field_id = fields.index(this);
-	    field = fields[field_id];
-
-	    // if arrow down
-	    if (e.which === 40){
-		// check that we are not at the bottom
-		if (field_id <= fields.length - 2){
-		    next_field = fields[field_id + 1];
-		    next_field.focus();
-
-		    if (next_field.type != "select-one")
-			next_field.select();
-		};
+	// Ignore nav keys on keydown.  field nav keys have to be handled through keypress.
+	if (field_nav === true){
+	    if (e.which === field_up || e.which === field_down){
 		e.preventDefault();
 		return false;
-	    }; //down
-	    
-	    // if arrow up
-	    if (e.which === 38){
-		// check that we are not at the bottom
-		if (field_id != 1){
-		    prev_field = fields[field_id - 1];
-		    prev_field.focus();
-
-		    if (prev_field.type != "select-one")
-			prev_field.select();
-		};
-		e.preventDefault();
-		return false;
-	    }; // up
-	}; // arrow
+	    };
+	};
     }); // keydown
 
     function focus_jump(start){
