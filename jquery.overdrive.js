@@ -18,7 +18,6 @@ $.overdrive = {
 
 $.fn.overdrive = function(options) {
 
-
     // Combine all the options overriding any defaults we may define.
     options = $.extend($.overdrive.defaults, options);
 
@@ -29,7 +28,6 @@ $.fn.overdrive = function(options) {
     field_nav = options['field_nav'];
     field_up = options['field_up'];
     field_down = options['field_down'];
-
 
     $(this).keypress(function(e){
 	if (field_nav === true){
