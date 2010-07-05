@@ -31,10 +31,6 @@ $.fn.overdrive = function(options) {
 
 
     $(this).keypress(function(e){
-
-//	console.log("keypress (which)  : " + e.which);
-//	console.log("keypress (keyCode): " + e.keyCode);
-	
 	if (field_nav === true){
 	    // get the current field id
 	    fields = $(":input");
@@ -42,7 +38,6 @@ $.fn.overdrive = function(options) {
 	    field = fields[field_id];
 
 	    code = e.which === 0? e.keyCode : e.which
-//	    console.log("keypress (code)   : " + code);
 	    
 	    if (e.ctrlKey && code === field_down){
 		// check that we are not at the bottom
@@ -84,9 +79,6 @@ $.fn.overdrive = function(options) {
 
     $(this).keydown(function(e) {
 
-//	console.log("keydown (which)  : " + e.which);
-//	console.log("keydown (keyCode): " + e.keyCode);
-	
 	// Detect if an enter was hit, 
 	if (e.which === 13){
 	    field = get_field(this);
