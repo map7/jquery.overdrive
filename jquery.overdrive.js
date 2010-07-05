@@ -18,6 +18,7 @@ $.overdrive = {
 
 $.fn.overdrive = function(options) {
 
+
     // Combine all the options overriding any defaults we may define.
     options = $.extend($.overdrive.defaults, options);
 
@@ -39,31 +40,8 @@ $.fn.overdrive = function(options) {
 
 	    code = e.which === 0? e.keyCode : e.which
 	    
-	    if (e.ctrlKey && code === field_down){
-		// check that we are not at the bottom
-		if (field_id <= fields.length - 2){
-		    next_field = fields[field_id + 1];
-		    next_field.focus();
-
-		    if (next_field.type != "select-one")
-			next_field.select();
-		};
-		e.preventDefault();
-		return false;
-	    }; //down
-	    
-	    if (e.ctrlKey && code === field_up){
-		// check that we are not at the bottom
-		if (field_id != 1){
-		    prev_field = fields[field_id - 1];
-		    prev_field.focus();
-
-		    if (prev_field.type != "select-one")
-			prev_field.select();
-		};
-		e.preventDefault();
-		return false;
-	    }; // up
+	    if (e.ctrlKey && code === field_down) move_field(1);
+	    if (e.ctrlKey && code === field_up) move_field(-1);
 	};
 
 	if (e.keyCode === jump_key_code) {e.preventDefault(); return false;};
@@ -125,6 +103,19 @@ $.fn.overdrive = function(options) {
 	    };
 	};
     }); // keydown
+
+    // Move around the form.
+    function move_field(dir){
+	bottom = fields.length - 2
+
+	if ((dir === 1 && field_id <= bottom) || (dir === -1 && field_id != 1)){
+	    next_field = fields[field_id + dir];
+	    next_field.focus();
+
+	    if (next_field.type != "select-one") next_field.select();
+	};
+	return false;
+    };
 
     function focus_jump(start){
 	for (var i = start; i < fields.length; i++){
