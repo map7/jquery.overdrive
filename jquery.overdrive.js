@@ -32,7 +32,8 @@ $.fn.overdrive = function(options) {
 
     $(this).keypress(function(e){
 
-	console.log("keypress: " + e.which);
+//	console.log("keypress (which)  : " + e.which);
+//	console.log("keypress (keyCode): " + e.keyCode);
 	
 	if (field_nav === true){
 	    // get the current field id
@@ -40,7 +41,10 @@ $.fn.overdrive = function(options) {
 	    field_id = fields.index(this);
 	    field = fields[field_id];
 
-	    if (e.which === field_down){
+	    code = e.which === 0? e.keyCode : e.which
+//	    console.log("keypress (code)   : " + code);
+	    
+	    if (e.ctrlKey && code === field_down){
 		// check that we are not at the bottom
 		if (field_id <= fields.length - 2){
 		    next_field = fields[field_id + 1];
@@ -53,7 +57,7 @@ $.fn.overdrive = function(options) {
 		return false;
 	    }; //down
 	    
-	    if (e.which === field_up){
+	    if (e.ctrlKey && code === field_up){
 		// check that we are not at the bottom
 		if (field_id != 1){
 		    prev_field = fields[field_id - 1];
@@ -80,7 +84,8 @@ $.fn.overdrive = function(options) {
 
     $(this).keydown(function(e) {
 
-	console.log("keydown: " + e.which);
+//	console.log("keydown (which)  : " + e.which);
+//	console.log("keydown (keyCode): " + e.keyCode);
 	
 	// Detect if an enter was hit, 
 	if (e.which === 13){
