@@ -35,6 +35,9 @@ Allow moving around fields with the characters '[' for up and ']' for down.  The
 
 Example of field_nav overriding the default keybindings to '-' & '=' for up & down respectively.
     $(":input").overdrive({field_nav: true, field_up: 45, field_down: 61 });
+
+Auto next in date.  If you are using the 'date_time_text_field_helpers' plugin then overdrive will provide an auto next function to go between year -> month -> date.  Enabled by default.
+
     
 #TODO
 
