@@ -30,11 +30,14 @@ Jump fields and setting the jump key to keyCode 122 which is F11.
 Allow F12 to submit the form.    
     $(":input").overdrive({submit_key_code: 123});
 
-Allow moving around fields with the characters '[' for up and ']' for down.  The user can also define their own.  I have had trouble using the up & down arrow as some browsers bring up a list on text fields.
+Allow moving around fields with the characters Ctrl+[ for up and Ctrl+] for down.  The user can also define their own.  I have had trouble using the up & down arrow as some browsers bring up a list on text fields.  Note: all field_nav keys must use the ctrl button.  So you could use some of the alpha characters and they will not be entered into fields.
     $(":input").overdrive({field_nav: true });
 
 Example of field_nav overriding the default keybindings to '-' & '=' for up & down respectively.
     $(":input").overdrive({field_nav: true, field_up: 45, field_down: 61 });
+
+Auto next in date.  If you are using the 'date_time_text_field_helpers' plugin then overdrive will provide an auto next function to go between year -> month -> date.  Enabled by default.
+
     
 #TODO
 
