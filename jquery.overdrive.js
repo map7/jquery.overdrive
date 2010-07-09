@@ -103,13 +103,12 @@ $.fn.overdrive = function(options) {
     }); // keydown
 
     // highlight fields on focus.
-    $('input').livequery(function(){
+    $('input,select,textarea').livequery(function(){
 	$(this).focus(function(){
-	    $('input').removeClass('highlight');
+	    $('.highlight').removeClass('highlight');
 	    $(this).addClass('highlight');
 	});
     });
-
 
 
     // Move around the form.
