@@ -11,7 +11,7 @@ Tested using Firefox 3.6.
 
 #Requires
 
-jquery 1.4.2
+jquery 1.4.2  
 jquery.livequery
 
 #Submodules
