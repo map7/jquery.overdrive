@@ -18,7 +18,7 @@ jquery.livequery
 
 You can use the exact version of livequery by use of submodules.
 
-$ git submodules update --init jquery.livequery
+$ git submodule update --init jquery.livequery
 
 #Use
 
