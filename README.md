@@ -42,6 +42,13 @@ Allow moving around fields with the characters Ctrl+[ for up and Ctrl+] for down
 
 Example of field_nav overriding the default keybindings to '-' & '=' for up & down respectively.
     $(":input").overdrive({field_nav: true, field_up: 45, field_down: 61 });
+
+Highlight on focus
+
+If you would like to Highlight your fields on focus then just add a 'highlight' style to your CSS file.
+EG:
+  .highlight { background-color: yellow; }
+
     
 #TODO
 
