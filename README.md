@@ -12,6 +12,13 @@ Tested using Firefox 3.6.
 #Requires
 
 jquery 1.4.2
+jquery.livequery
+
+#Submodules
+
+You can use the exact version of livequery by use of submodules.
+
+$ git submodules update --init jquery.livequery
 
 #Use
 
