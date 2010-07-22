@@ -63,15 +63,17 @@ $.fn.overdrive = function(options) {
 	    if (field.type === "submit" && submit_after == true)
 		return true;
 	    
-	    if (next_field != null && (next_field.type != "submit" || submit_after == true)){
-		next_field.focus();
-		if (next_field.type != "select-one")
-		    next_field.select();
-	    };
+	    if (!$(this).hasClass('day_field') && !$(this).hasClass('month_field') && !$(this).hasClass('year_field')){
+		if (next_field != null && (next_field.type != "submit" || submit_after == true)){
+		    next_field.focus();
+		    if (next_field.type != "select-one")
+			next_field.select();
+		};
 	    
-	    e.preventDefault();
-	    return false;
-	}; // key==13 (enter)
+		e.preventDefault();
+		return false;
+	    }; // key==13 (enter)
+	};
 
 	// Jump to fields binding
 	if (e.which === jump_key_code){
