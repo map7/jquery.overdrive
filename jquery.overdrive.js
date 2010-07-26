@@ -16,6 +16,7 @@ $.overdrive = {
     }
 };
 
+// Main Overdrive chainable function
 $.fn.overdrive = function(options) {
 
     // Combine all the options overriding any defaults we may define.
@@ -143,3 +144,105 @@ $.fn.overdrive = function(options) {
 	return field;
     };
 }; // overdrive
+
+// Date functions
+$.auto_next_date = function(next_down_field) {
+    date_fields = [".day_field",".month_field",".year_field",next_down_field];
+    max = [2,2,4]
+
+    for (var i = 0; i <= 2; i++){
+	auto_next(date_fields[i],max[i],date_fields[i + 1]);    // Add auto_next to each field
+
+	// Focus down on Enter key.
+	$(date_fields[i]).keydown(function(e){
+	    if (e.keyCode === 13){
+		$(next_down_field).focus();
+		e.preventDefault();
+		return false;
+	    };
+	});
+    };    
+};
+
+function auto_next(field, max_len, next_field){
+
+    // Code to move person onto the next field
+    // Put this into overdrive.
+    $(field).focusin(function(){
+	$enter_date = 0;
+    });
+
+    $(field).focusout(function(){
+	value = $(field).val();
+	max_len = get_max(this);
+	$(this).val(value.substr(0,max_len));
+    });
+
+    $(field).keypress(function(e) {
+	length = $(field).val().length;
+	max_len = get_max(this);
+	code = e.which === 0? e.keyCode : e.which
+
+	// All numbers are between 48 to 57 (including numpad)
+	if (!is_number(code) && code > 31){
+	    e.preventDefault(); 
+	    return false;
+	}
+    });
+
+    $(field).keydown(function(e){
+	length = $(field).val().length;
+	max_len = get_max(this);
+	code = e.which
+	if (code >= 96) code = code - 48;  // For numpad (don't do this in keypress)
+
+	if (is_number(code)){	    
+	    if (length >= max_len)
+		$(this).select();
+
+	}else if (code >= 32){
+	    e.preventDefault();
+	    return false;
+	}
+    });
+
+    $(field).keyup(function(e){
+	code = e.which
+	if (code >= 96) code = code - 48;  // For numpad (don't do this in keypress)
+
+	console.log( "jquery.overdrive.js, which: " + code + " number " + is_number(code));
+	
+	max_len = get_max(this);
+
+	if (!e.ctrlKey && code != 9 && code != 13 && code != 27){ // Ignore if user hits tab.
+	    if ($enter_date == 1){
+		value = $(field).val();
+		value = value.replace(/_/g,""); // Remove underscore
+		length = value.length;
+
+		if (length >= max_len && is_number(code)){
+		    $(next_field).focus();
+		    $(next_field).select();
+		}
+	    }else{
+		$enter_date = 1;
+	    };
+	};
+    });
+};
+
+function get_max(field){
+    if ($(field).hasClass("year_field"))
+	max_len = 4;
+    else
+	max_len = 2;
+
+    return max_len;
+}
+
+function is_number(code){
+    if ((code >= 48 && code <= 57))
+	return true;
+    else
+	return false;
+}
