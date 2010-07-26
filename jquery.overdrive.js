@@ -146,8 +146,8 @@ $.fn.overdrive = function(options) {
 }; // overdrive
 
 // Date functions
-$.auto_next_date = function(next_down_field) {
-    date_fields = [".day_field",".month_field",".year_field",next_down_field];
+$.auto_next_date = function(field, next_down_field) {
+    date_fields = [field + "_3i", field + "_2i", field + "_1i", next_down_field];
 
     for (var i = 0; i <= 2; i++){
 	auto_next(date_fields[i],date_fields[i + 1]);    // Add auto_next to each field

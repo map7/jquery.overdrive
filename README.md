@@ -60,10 +60,8 @@ http://github.com/adzap/date_time_text_field_helpers.git
 Then you can take advantage of the automatic next functions and keybindings I have created for this plugin.
 
 Add the following to your $(document).ready or live area:
-$.auto_next_date("<field name directly after your date field>");
+$.auto_next_date("<date field id>", "<field name directly after your date field>");
 
-Note: Currently only works for one date field in your form.
+EG: product_release_date is the date field and product_price is the field directly under.
+$.auto_next_date("#product_release_date", "#product_price");
 
-#TODO
-
-Get date plugin shortcuts working when you have two date fields in a form.
