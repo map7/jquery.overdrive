@@ -173,34 +173,21 @@ function auto_next(field, max_len, next_field){
     // Truncate input to max length if user has held down a key.
     $(field).focusout(function(){
 	value = $(field).val();  
-	max_len = get_max(this); 
-	$(this).val(value.substr(0,max_len));
+	$(this).val(value.substr(0,get_max(this)));
     });
 
+    // Forbid any non-number characters
     $(field).keypress(function(e) {
-	length = $(field).val().length;
-	max_len = get_max(this);
 	code = e.which === 0? e.keyCode : e.which
-
-	// All numbers are between 48 to 57 (including numpad)
-	if (!is_number(code) && code > 31){
-	    e.preventDefault(); 
-	    return false;
-	}
+	if (!is_number(code) && code > 31) return false;
     });
 
     $(field).keydown(function(e){
 	length = $(field).val().length;
 	code = get_code(e);
 
-	if (is_number(code)){	    
-	    if (length >= get_max(this))
-		$(this).select();
-
-	}else if (code >= 32){
-	    e.preventDefault();
-	    return false;
-	}
+	if (is_number(code) && length >= get_max(this))
+	    $(this).select();
     });
 
     $(field).keyup(function(e){
@@ -211,10 +198,9 @@ function auto_next(field, max_len, next_field){
 	    if ($enter_date == 1){
 		length = $(field).val().length;
 
-		if (length >= get_max(this) && is_number(code)){
-		    $(next_field).focus();
-		    $(next_field).select();
-		}
+		if (length >= get_max(this) && is_number(code))
+		    $(next_field).focus().select();
+		
 	    }else{
 		$enter_date = 1;
 	    };
