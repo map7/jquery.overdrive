@@ -164,17 +164,16 @@ $.auto_next_date = function(next_down_field) {
     };    
 };
 
+// Code to move person onto the next field
 function auto_next(field, max_len, next_field){
 
-    // Code to move person onto the next field
-    // Put this into overdrive.
-    $(field).focusin(function(){
-	$enter_date = 0;
-    });
+    // Focus in we must reset the enter_date
+    $(field).focusin(function(){ $enter_date = 0; });
 
+    // Truncate input to max length if user has held down a key.
     $(field).focusout(function(){
-	value = $(field).val();
-	max_len = get_max(this);
+	value = $(field).val();  
+	max_len = get_max(this); 
 	$(this).val(value.substr(0,max_len));
     });
 
@@ -192,12 +191,10 @@ function auto_next(field, max_len, next_field){
 
     $(field).keydown(function(e){
 	length = $(field).val().length;
-	max_len = get_max(this);
-	code = e.which
-	if (code >= 96) code = code - 48;  // For numpad (don't do this in keypress)
+	code = get_code(e);
 
 	if (is_number(code)){	    
-	    if (length >= max_len)
+	    if (length >= get_max(this))
 		$(this).select();
 
 	}else if (code >= 32){
@@ -207,20 +204,14 @@ function auto_next(field, max_len, next_field){
     });
 
     $(field).keyup(function(e){
-	code = e.which
-	if (code >= 96) code = code - 48;  // For numpad (don't do this in keypress)
-
+	code = get_code(e);
 	console.log( "jquery.overdrive.js, which: " + code + " number " + is_number(code));
 	
-	max_len = get_max(this);
-
 	if (!e.ctrlKey && code != 9 && code != 13 && code != 27){ // Ignore if user hits tab.
 	    if ($enter_date == 1){
-		value = $(field).val();
-		value = value.replace(/_/g,""); // Remove underscore
-		length = value.length;
+		length = $(field).val().length;
 
-		if (length >= max_len && is_number(code)){
+		if (length >= get_max(this) && is_number(code)){
 		    $(next_field).focus();
 		    $(next_field).select();
 		}
@@ -229,6 +220,12 @@ function auto_next(field, max_len, next_field){
 	    };
 	};
     });
+};
+
+function get_code(e){
+    code = e.which
+    if (code >= 96) code = code - 48;  // For numpad (don't do this in keypress)
+    return code;
 };
 
 function get_max(field){
