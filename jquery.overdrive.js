@@ -148,26 +148,24 @@ $.fn.overdrive = function(options) {
 // Date functions
 $.auto_next_date = function(next_down_field) {
     date_fields = [".day_field",".month_field",".year_field",next_down_field];
-    max = [2,2,4]
 
     for (var i = 0; i <= 2; i++){
-	auto_next(date_fields[i],max[i],date_fields[i + 1]);    // Add auto_next to each field
+	auto_next(date_fields[i],date_fields[i + 1]);    // Add auto_next to each field
 
 	// Focus down on Enter key.
 	$(date_fields[i]).keydown(function(e){
 	    if (e.keyCode === 13){
 		$(next_down_field).focus();
-		e.preventDefault();
 		return false;
 	    };
 	});
     };    
-};
+}; // auto_next_date
 
 // Code to move person onto the next field
-function auto_next(field, max_len, next_field){
-    // Focus in we must reset the enter_date
-    $(field).focusin(function(){ $enter_date = 0; });
+function auto_next(field, next_field){
+    // Focus in we must reset the focused
+    $(field).focusin(function(){ $focused = false; });
 
     // Truncate input to max length if user has held down a key.
     $(field).focusout(function(){
@@ -181,40 +179,35 @@ function auto_next(field, max_len, next_field){
 	if (!is_number(code) && code > 31) return false;
     });
 
+    // If user enters a number and field is at max length then override with new value.
     $(field).keydown(function(e){
-	length = $(field).val().length;
-	code = get_code(e);
-
-	if (is_number(code) && length >= get_max(this))
+	if (is_number(get_code(e)) && get_len(field) >= get_max(this))
 	    $(this).select();
     });
 
+    // If key is not a special key, the field is focused, the length is >= max length and user entered
+    // a number then focus and select the next field.
     $(field).keyup(function(e){
-	code = get_code(e);
-	console.log( "jquery.overdrive.js, which: " + code + " number " + is_number(code));
-
-	if (!e.ctrlKey && jQuery.inArray(code, [9,13,27]) == -1){
-	    if ($enter_date == 1){
-		length = $(field).val().length;
-
-		if (length >= get_max(this) && is_number(code))
-		    $(next_field).focus().select();
-		
-	    }else{
-		$enter_date = 1;
-	    };
-	};
+	if (!is_special(e) && $focused && get_len(field) >= get_max(this) && is_number(get_code(e)))
+	    $(next_field).focus().select();
+	else
+	    $focused = true;
     }); 
 }; // auto_next
 
 // Check if the key is Ctrl, TAB, Enter or ESC if so return true.
-function is_special_key(e){
-    return (e.ctrlKey || jQuery.inArray(get_code(e), [9,13,27]) == -1)? true : false;
+function is_special(e){
+    return (!e.ctrlKey || jQuery.inArray(get_code(e), [9,13,27]) == -1)? false : true;
 }
 
 // Allow for the use of the Numpad.
 function get_code(e){
     return (e.which >= 96)? e.which - 48 : e.which;  
+};
+
+// Get current text length of field.
+function get_len(field){
+    return $(field).val().length;
 };
 
 // If current field is the year return max length = 4 otherwise it's 2.

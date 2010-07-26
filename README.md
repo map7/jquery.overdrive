@@ -49,9 +49,21 @@ If you would like to Highlight your fields on focus then just add a 'highlight' 
 EG:
   .highlight { background-color: yellow; }
 
-    
+
+
+
+#Date plugin
+
+If you are using the date plugin:
+http://github.com/adzap/date_time_text_field_helpers.git
+
+Then you can take advantage of the automatic next functions and keybindings I have created for this plugin.
+
+Add the following to your $(document).ready or live area:
+$.auto_next_date("<field name directly after your date field>");
+
+Note: Currently only works for one date field in your form.
+
 #TODO
 
-Other features I envision being part of this plugin are:
-
-* Key combinations to allow selecting of items in a list (binding 0 -> 9 keys for row selection).  This maybe good to put into a different plugin called 'jQuery.row_select' or something.
+Get date plugin shortcuts working when you have two date fields in a form.
