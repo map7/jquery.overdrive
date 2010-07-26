@@ -166,7 +166,6 @@ $.auto_next_date = function(next_down_field) {
 
 // Code to move person onto the next field
 function auto_next(field, max_len, next_field){
-
     // Focus in we must reset the enter_date
     $(field).focusin(function(){ $enter_date = 0; });
 
@@ -193,8 +192,8 @@ function auto_next(field, max_len, next_field){
     $(field).keyup(function(e){
 	code = get_code(e);
 	console.log( "jquery.overdrive.js, which: " + code + " number " + is_number(code));
-	
-	if (!e.ctrlKey && code != 9 && code != 13 && code != 27){ // Ignore if user hits tab.
+
+	if (!e.ctrlKey && jQuery.inArray(code, [9,13,27]) == -1){
 	    if ($enter_date == 1){
 		length = $(field).val().length;
 
@@ -205,27 +204,25 @@ function auto_next(field, max_len, next_field){
 		$enter_date = 1;
 	    };
 	};
-    });
-};
+    }); 
+}; // auto_next
 
-function get_code(e){
-    code = e.which
-    if (code >= 96) code = code - 48;  // For numpad (don't do this in keypress)
-    return code;
-};
-
-function get_max(field){
-    if ($(field).hasClass("year_field"))
-	max_len = 4;
-    else
-	max_len = 2;
-
-    return max_len;
+// Check if the key is Ctrl, TAB, Enter or ESC if so return true.
+function is_special_key(e){
+    return (e.ctrlKey || jQuery.inArray(get_code(e), [9,13,27]) == -1)? true : false;
 }
 
+// Allow for the use of the Numpad.
+function get_code(e){
+    return (e.which >= 96)? e.which - 48 : e.which;  
+};
+
+// If current field is the year return max length = 4 otherwise it's 2.
+function get_max(field){
+    return ($(field).hasClass("year_field"))? 4 : 2;
+};
+
+// Work out if user entered a number by checking the ascii code.
 function is_number(code){
-    if ((code >= 48 && code <= 57))
-	return true;
-    else
-	return false;
+    return (code >= 48 && code <= 57)? true : false;
 }
