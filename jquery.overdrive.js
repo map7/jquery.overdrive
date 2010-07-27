@@ -145,6 +145,12 @@ $.fn.overdrive = function(options) {
     };
 }; // overdrive
 
+// Focus, highlight & select the field (default to the first field).
+$.focus_input = function(field){
+    if (!field)	field = "input[type=text]"
+    $(field).first().focus().addClass('highlight').select();
+};
+
 // Date functions
 $.auto_next_date = function(field, next_down_field) {
     date_fields = [field + "_3i", field + "_2i", field + "_1i", next_down_field];
