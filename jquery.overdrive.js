@@ -33,7 +33,7 @@ $.fn.overdrive = function(options) {
     $(this).keypress(function(e){
 	if (field_nav === true){
 	    // get the current field id
-	    fields = $(":input");
+	    fields = $(":input:not([type=hidden])");
 	    field_id = fields.index(this);
 	    field = fields[field_id];
 
@@ -64,7 +64,10 @@ $.fn.overdrive = function(options) {
 	    if (field.type === "submit" && submit_after == true)
 		return true;
 	    
-	    if (!$(this).hasClass('day_field') && !$(this).hasClass('month_field') && !$(this).hasClass('year_field')){
+	    if (!$(this).hasClass('day_field') &&
+		!$(this).hasClass('month_field') &&
+		!$(this).hasClass('year_field')){
+
 		if (next_field != null && (next_field.type != "submit" || submit_after == true)){
 		    next_field.focus();
 		    if (next_field.type != "select-one")
@@ -78,7 +81,7 @@ $.fn.overdrive = function(options) {
 
 	// Jump to fields binding
 	if (e.which === jump_key_code){
-	    fields = $(":input");
+	    fields = $(":input:not([type=hidden])");
 	    field_id = fields.index(this);
 	    field = fields[field_id];
 	    
@@ -138,7 +141,7 @@ $.fn.overdrive = function(options) {
     };
 
     function get_field(current){
-	fields = $(":input");
+	fields = $(":input:not([type=hidden])");
 	field_id = fields.index(current);
 	field = fields[field_id];
 	return field;
