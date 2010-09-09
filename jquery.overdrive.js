@@ -121,7 +121,7 @@ $.fn.overdrive = function(options) {
     function move_field(dir){
 	bottom = fields.length - 2
 
-	if ((dir === 1 && field_id <= bottom) || (dir === -1 && field_id != 1)){
+	if ((dir === 1 && field_id <= bottom) || (dir === -1 && field_id != 0)){
 	    next_field = fields[field_id + dir];
 	    next_field.focus();
 
