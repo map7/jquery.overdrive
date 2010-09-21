@@ -33,7 +33,7 @@ $.fn.overdrive = function(options) {
     $(this).keypress(function(e){
 	if (field_nav === true){
 	    // get the current field id
-	    fields = $(":input:not([type=hidden])");
+	    fields = $("input:not([type=hidden])");
 	    field_id = fields.index(this);
 	    field = fields[field_id];
 
@@ -81,7 +81,7 @@ $.fn.overdrive = function(options) {
 
 	// Jump to fields binding
 	if (e.which === jump_key_code){
-	    fields = $(":input:not([type=hidden])");
+	    fields = $("input:not([type=hidden])");
 	    field_id = fields.index(this);
 	    field = fields[field_id];
 	    
@@ -141,7 +141,7 @@ $.fn.overdrive = function(options) {
     };
 
     function get_field(current){
-	fields = $(":input:not([type=hidden])");
+	fields = $("input:not([type=hidden])");
 	field_id = fields.index(current);
 	field = fields[field_id];
 	return field;
