@@ -33,7 +33,7 @@ $.fn.overdrive = function(options) {
     $(this).keypress(function(e){
 	if (field_nav === true){
 	    // get the current field id
-	    fields = $("input:not([type=hidden])");
+	    fields = $("input:not([type=hidden])").not($('[style*=none]>input'));
 	    field_id = fields.index(this);
 	    field = fields[field_id];
 
@@ -68,12 +68,14 @@ $.fn.overdrive = function(options) {
 		!$(this).hasClass('month_field') &&
 		!$(this).hasClass('year_field')){
 
+//		$(e.target).parents('form').find('input:not([type=hidden])').addClass('highlight');
+
 		if (next_field != null && (next_field.type != "submit" || submit_after == true)){
 		    next_field.focus();
 		    if (next_field.type != "select-one")
 			next_field.select();
 		};
-	    
+
 		e.preventDefault();
 		return false;
 	    }; // key==13 (enter)
@@ -81,7 +83,7 @@ $.fn.overdrive = function(options) {
 
 	// Jump to fields binding
 	if (e.which === jump_key_code){
-	    fields = $("input:not([type=hidden])");
+	    fields = $("input:not([type=hidden])").not($('[style*=none]>input'));
 	    field_id = fields.index(this);
 	    field = fields[field_id];
 	    
@@ -141,7 +143,7 @@ $.fn.overdrive = function(options) {
     };
 
     function get_field(current){
-	fields = $("input:not([type=hidden])");
+	fields = $("input:not([type=hidden])").not($('[style*=none]>input'));
 	field_id = fields.index(current);
 	field = fields[field_id];
 	return field;
