@@ -152,8 +152,8 @@ $.fn.overdrive = function(options) {
 
 // Focus, highlight & select the field (default to the first field).
 $.focus_input = function(field){
-    if (!field)	field = "input[type=text]"
-    $(field).first().focus().addClass('highlight').select();
+    if (!field)	field = $("input[type=text]");
+    $(field).not("input[disabled]").first().focus().addClass('highlight').select();
 };
 
 // Date functions
