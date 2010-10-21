@@ -153,14 +153,20 @@ $.fn.overdrive = function(options) {
 // Focus, highlight & select the field (default to the first field).
 $.focus_input = function(field){
     if (!field)	field = $("input[type=text]");
-    $(field).not("input[disabled]").first().focus().addClass('highlight').select();
+    $(field).not("input[disabled]")
+	.not($('input[readonly]'))
+	.first()
+	.focus()
+	.addClass('highlight')
+	.select();
 };
 
 // Readonly function
 $.fn.setReadOnly = function(readonly) {
     return this.filter('input:text')
-	.attr('readOnly', readonly)
+	.attr('readonly', readonly)
 	.css('opacity', readonly ? 0.5 : 1.0)
+	.addClass('readonly')
 	.end();
 };
 
