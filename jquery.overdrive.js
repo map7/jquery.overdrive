@@ -156,6 +156,15 @@ $.focus_input = function(field){
     $(field).not("input[disabled]").first().focus().addClass('highlight').select();
 };
 
+// Readonly function
+$.fn.setReadOnly = function(readonly) {
+    return this.filter('input:text')
+	.attr('readOnly', readonly)
+	.css('opacity', readonly ? 0.5 : 1.0)
+	.end();
+};
+
+
 // Date functions
 $.auto_next_date = function(field, next_down_field) {
     date_fields = [field + "_3i", field + "_2i", field + "_1i", next_down_field];
