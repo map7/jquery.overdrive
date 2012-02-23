@@ -23,35 +23,44 @@ You can use the exact version of livequery by use of submodules.
 #Use
 
 Add the following to your $(document).ready section
+
     $(":input").overdrive();
 
 Or if you want to allow enter to submit when on top of the submit button:
+
     $(":input").overdrive({submit_after: true});
 
 Allowing a some jump fields
+
     $(":input").overdrive({submit_after: true, jump: ['product_name', 'product_code']});
 
 Jump fields and setting the jump key to keyCode 122 which is F11.
+
     $(":input").overdrive({submit_after: true, jump: ['product_name', 'product_code'], jump_key_code: 122});
 
 Allow F12 to submit the form.    
+
     $(":input").overdrive({submit_key_code: 123});
 
 Allow moving around fields with the characters Ctrl+[ for up and Ctrl+] for down.  The user can also define their own.  I have had trouble using the up & down arrow as some browsers bring up a list on text fields.  Note: all field_nav keys must use the ctrl button.  So you could use some of the alpha characters and they will not be entered into fields.
+
     $(":input").overdrive({field_nav: true });
 
 Example of field_nav overriding the default keybindings to '-' & '=' for up & down respectively.
+
     $(":input").overdrive({field_nav: true, field_up: 45, field_down: 61 });
 
 Highlight on focus
 
 If you would like to Highlight your fields on focus then just add a 'highlight' style to your CSS file.
 EG:
+
   .highlight { background-color: yellow; }
 
 
 #Focus
 If you would like to focus a field you first should add the following to your document ready area:
+
 	the_focus = link.attr('the_focus');
 	$.focus_input(the_focus);
 
@@ -59,18 +68,21 @@ If no attribute called 'the_focus' exists then the first input box is focused.
 
 Here is how you focus a specific field:
 
-<p><%= link_to "New Product", new_product_path, :id => "new_product", :class => 'ajax', :target => 'content', :accesskey => 'ctrl+a', :the_focus => "#product_code" %></p>
+    <p><%= link_to "New Product", new_product_path, :id => "new_product", :class => 'ajax', :target => 'content', :accesskey => 'ctrl+a', :the_focus => "#product_code" %></p>
 
 #Date plugin
 
 If you are using the date plugin:
+
 http://github.com/adzap/date_time_text_field_helpers.git
 
 Then you can take advantage of the automatic next functions and keybindings I have created for this plugin.
 
 Add the following to your $(document).ready or live area:
-$.auto_next_date("<date field id>", "<field name directly after your date field>");
+
+    $.auto_next_date("<date field id>", "<field name directly after your date field>");
 
 EG: product_release_date is the date field and product_price is the field directly under.
-$.auto_next_date("#product_release_date", "#product_price");
+
+    $.auto_next_date("#product_release_date", "#product_price");
 
