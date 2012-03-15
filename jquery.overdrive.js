@@ -135,8 +135,8 @@ $.fn.overdrive = function(options) {
     function focus_jump(start){
 	for (var i = start; i < fields.length; i++){
 	    if(jump.indexOf(fields[i].id) > -1){
-		fields[i].focus();
-		return true;
+			fields[i].focus().select();
+			return true;
 	    };
 	};
 	return false;
