@@ -22,7 +22,7 @@ You can use the exact version of livequery by use of submodules.
 
 * Use
 
-Add the following to your $(document).ready section
+Add the following to the bottom of your $(document).ready section
 
 : $(":input").overdrive();
 

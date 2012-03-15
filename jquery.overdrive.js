@@ -33,7 +33,8 @@ $.fn.overdrive = function(options) {
     $(this).keypress(function(e){
 		if (field_nav === true){
 			// get the current field id
-			fields = $("input:not([type=hidden])").not($('[style*=none]>input'));
+			fields = $("input:not([type=hidden])").not($('[style*=none]>input')).
+				not($("input.hidden_submit"));
 			field_id = fields.index(this);
 			field = fields[field_id];
 
@@ -83,7 +84,8 @@ $.fn.overdrive = function(options) {
 
 		// Jump to fields binding
 		if (e.which === jump_key_code){
-			fields = $("input:not([type=hidden])").not($('[style*=none]>input'));
+			fields = $("input:not([type=hidden])").not($('[style*=none]>input')).
+				not($("input.hidden_submit"));
 			field_id = fields.index(this);
 			field = fields[field_id];
 			
@@ -135,7 +137,9 @@ $.fn.overdrive = function(options) {
     function focus_jump(start){
 		for (var i = start; i < fields.length; i++){
 			if(jump.indexOf(fields[i].id) > -1){
-				fields[i].focus().select();
+				$('.highlight').removeClass('highlight');
+				fields[i].focus();
+				fields[i].select();
 				return true;
 			};
 		};
@@ -143,7 +147,8 @@ $.fn.overdrive = function(options) {
     };
 
     function get_field(current){
-		fields = $("input:not([type=hidden])").not($('[style*=none]>input'));
+		fields = $("input:not([type=hidden])").not($('[style*=none]>input')).
+			not($("input.hidden_submit"));
 		field_id = fields.index(current);
 		field = fields[field_id];
 		return field;
@@ -157,8 +162,7 @@ $.focus_input = function(field){
 		.not($('input[readonly]'))
 		.first()
 		.focus()
-		.select()
-		.addClass('highlight');
+		.select();
 };
 
 // Readonly function
