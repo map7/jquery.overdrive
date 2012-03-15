@@ -31,122 +31,122 @@ $.fn.overdrive = function(options) {
     field_down = options['field_down'];
 
     $(this).keypress(function(e){
-	if (field_nav === true){
-	    // get the current field id
-	    fields = $("input:not([type=hidden])").not($('[style*=none]>input'));
-	    field_id = fields.index(this);
-	    field = fields[field_id];
+		if (field_nav === true){
+			// get the current field id
+			fields = $("input:not([type=hidden])").not($('[style*=none]>input'));
+			field_id = fields.index(this);
+			field = fields[field_id];
 
-	    code = e.which === 0? e.keyCode : e.which
-	    
-	    if (e.ctrlKey && code === field_down) move_field(1);
-	    if (e.ctrlKey && code === field_up) move_field(-1);
-	};
+			code = e.which === 0? e.keyCode : e.which
+			
+			if (e.ctrlKey && code === field_down) move_field(1);
+			if (e.ctrlKey && code === field_up) move_field(-1);
+		};
 
-	if (e.keyCode === jump_key_code) {e.preventDefault(); return false;};
-	if (e.which === 13) {
-	    field = get_field(this);
-	    
-	    if (field.type === "submit" && submit_after == true)
-		return true;
-	    else
-		e.preventDefault();
-	};
+		if (e.keyCode === jump_key_code) {e.preventDefault(); return false;};
+		if (e.which === 13) {
+			field = get_field(this);
+			
+			if (field.type === "submit" && submit_after == true)
+				return true;
+			else
+				e.preventDefault();
+		};
     });
 
     $(this).keydown(function(e) {
 
-	// Detect if an enter was hit, 
-	if (e.which === 13){
-	    field = get_field(this);
-	    next_field = fields[field_id + 1];
+		// Detect if an enter was hit, 
+		if (e.which === 13){
+			field = get_field(this);
+			next_field = fields[field_id + 1];
 
-	    if (field.type === "submit" && submit_after == true)
-		return true;
-	    
-	    if (!$(this).hasClass('day_field') &&
-		!$(this).hasClass('month_field') &&
-		!$(this).hasClass('year_field')){
+			if (field.type === "submit" && submit_after == true)
+				return true;
+			
+			if (!$(this).hasClass('day_field') &&
+				!$(this).hasClass('month_field') &&
+				!$(this).hasClass('year_field')){
 
-//		$(e.target).parents('form').find('input:not([type=hidden])').addClass('highlight');
+				//		$(e.target).parents('form').find('input:not([type=hidden])').addClass('highlight');
 
-		if (next_field != null && (next_field.type != "submit" || submit_after == true)){
-		    next_field.focus();
-		    if (next_field.type != "select-one")
-			next_field.select();
+				if (next_field != null && (next_field.type != "submit" || submit_after == true)){
+					next_field.focus();
+					if (next_field.type != "select-one")
+						next_field.select();
+				};
+
+				e.preventDefault();
+				return false;
+			}; // key==13 (enter)
 		};
 
-		e.preventDefault();
-		return false;
-	    }; // key==13 (enter)
-	};
+		// Jump to fields binding
+		if (e.which === jump_key_code){
+			fields = $("input:not([type=hidden])").not($('[style*=none]>input'));
+			field_id = fields.index(this);
+			field = fields[field_id];
+			
+			jumped = focus_jump(field_id + 1);
+			if (jumped === false) focus_jump(0);
 
-	// Jump to fields binding
-	if (e.which === jump_key_code){
-	    fields = $("input:not([type=hidden])").not($('[style*=none]>input'));
-	    field_id = fields.index(this);
-	    field = fields[field_id];
-	    
-	    jumped = focus_jump(field_id + 1);
-	    if (jumped === false) focus_jump(0);
+			e.preventDefault();
+			return false;
+		}// key==122 (f11)
 
-	    e.preventDefault();
-	    return false;
-	}// key==122 (f11)
+		// Submit form binding
+		if (e.which === submit_key_code){
+			$('form').submit();
+			e.preventDefault();
+			return false;
+		};
 
-	// Submit form binding
-	if (e.which === submit_key_code){
-	    $('form').submit();
-	    e.preventDefault();
-	    return false;
-	};
-
-	// Ignore nav keys on keydown.  field nav keys have to be handled through keypress.
-	if (field_nav === true){
-	    if (e.which === field_up || e.which === field_down){
-		e.preventDefault();
-		return false;
-	    };
-	};
+		// Ignore nav keys on keydown.  field nav keys have to be handled through keypress.
+		if (field_nav === true){
+			if (e.which === field_up || e.which === field_down){
+				e.preventDefault();
+				return false;
+			};
+		};
     }); // keydown
 
     // highlight fields on focus.
     $('input,select,textarea').livequery(function(){
-	$(this).focus(function(){
-	    $('.highlight').removeClass('highlight');
-	    $(this).addClass('highlight');
-	});
+		$(this).focus(function(){
+			$('.highlight').removeClass('highlight');
+			$(this).addClass('highlight');
+		});
     });
 
 
     // Move around the form.
     function move_field(dir){
-	bottom = fields.length - 2
+		bottom = fields.length - 2
 
-	if ((dir === 1 && field_id <= bottom) || (dir === -1 && field_id != 0)){
-	    next_field = fields[field_id + dir];
-	    next_field.focus();
+		if ((dir === 1 && field_id <= bottom) || (dir === -1 && field_id != 0)){
+			next_field = fields[field_id + dir];
+			next_field.focus();
 
-	    if (next_field.type != "select-one") next_field.select();
-	};
-	return false;
+			if (next_field.type != "select-one") next_field.select();
+		};
+		return false;
     };
 
     function focus_jump(start){
-	for (var i = start; i < fields.length; i++){
-	    if(jump.indexOf(fields[i].id) > -1){
-			fields[i].focus().select();
-			return true;
-	    };
-	};
-	return false;
+		for (var i = start; i < fields.length; i++){
+			if(jump.indexOf(fields[i].id) > -1){
+				fields[i].focus().select();
+				return true;
+			};
+		};
+		return false;
     };
 
     function get_field(current){
-	fields = $("input:not([type=hidden])").not($('[style*=none]>input'));
-	field_id = fields.index(current);
-	field = fields[field_id];
-	return field;
+		fields = $("input:not([type=hidden])").not($('[style*=none]>input'));
+		field_id = fields.index(current);
+		field = fields[field_id];
+		return field;
     };
 }; // overdrive
 
@@ -154,20 +154,20 @@ $.fn.overdrive = function(options) {
 $.focus_input = function(field){
     if (!field)	field = $("input[type=text]");
     $(field).not("input[disabled]")
-	.not($('input[readonly]'))
-	.first()
-	.focus()
-	.addClass('highlight')
-	.select();
+		.not($('input[readonly]'))
+		.first()
+		.focus()
+		.select()
+		.addClass('highlight');
 };
 
 // Readonly function
 $.fn.setReadOnly = function(readonly) {
     return this.filter('input:text')
-	.attr('readonly', readonly)
-	.css('opacity', readonly ? 0.5 : 1.0)
-	.addClass('readonly')
-	.end();
+		.attr('readonly', readonly)
+		.css('opacity', readonly ? 0.5 : 1.0)
+		.addClass('readonly')
+		.end();
 };
 
 
@@ -176,15 +176,15 @@ $.auto_next_date = function(field, next_down_field) {
     date_fields = [field + "_3i", field + "_2i", field + "_1i", next_down_field];
 
     for (var i = 0; i <= 2; i++){
-	auto_next(date_fields[i],date_fields[i + 1]);    // Add auto_next to each field
+		auto_next(date_fields[i],date_fields[i + 1]);    // Add auto_next to each field
 
-	// Focus down on Enter key.
-	$(date_fields[i]).keydown(function(e){
-	    if (e.keyCode === 13){
-		$(next_down_field).focus();
-		return false;
-	    };
-	});
+		// Focus down on Enter key.
+		$(date_fields[i]).keydown(function(e){
+			if (e.keyCode === 13){
+				$(next_down_field).focus();
+				return false;
+			};
+		});
     };    
 }; // auto_next_date
 
@@ -195,29 +195,29 @@ function auto_next(field, next_field){
 
     // Truncate input to max length if user has held down a key.
     $(field).focusout(function(){
-	value = $(field).val();  
-	$(this).val(value.substr(0,get_max(this)));
+		value = $(field).val();  
+		$(this).val(value.substr(0,get_max(this)));
     });
 
     // Forbid any non-number characters
     $(field).keypress(function(e) {
-	code = e.which === 0? e.keyCode : e.which
-	if (!is_number(code) && code > 31) return false;
+		code = e.which === 0? e.keyCode : e.which
+		if (!is_number(code) && code > 31) return false;
     });
 
     // If user enters a number and field is at max length then override with new value.
     $(field).keydown(function(e){
-	if (is_number(get_code(e)) && get_len(field) >= get_max(this))
-	    $(this).select();
+		if (is_number(get_code(e)) && get_len(field) >= get_max(this))
+			$(this).select();
     });
 
     // If key is not a special key, the field is focused, the length is >= max length and user entered
     // a number then focus and select the next field.
     $(field).keyup(function(e){
-	if (!is_special(e) && $focused && get_len(field) >= get_max(this) && is_number(get_code(e)))
-	    $(next_field).focus().select();
-	else
-	    $focused = true;
+		if (!is_special(e) && $focused && get_len(field) >= get_max(this) && is_number(get_code(e)))
+			$(next_field).focus().select();
+		else
+			$focused = true;
     }); 
 }; // auto_next
 
