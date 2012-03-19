@@ -33,8 +33,7 @@ $.fn.overdrive = function(options) {
     $(this).keypress(function(e){
 		if (field_nav === true){
 			// get the current field id
-			fields = $("input:not([type=hidden])").not($('[style*=none]>input')).
-				not($("input.hidden_submit"));
+			fields = get_fields();
 			field_id = fields.index(this);
 			field = fields[field_id];
 
@@ -84,8 +83,7 @@ $.fn.overdrive = function(options) {
 
 		// Jump to fields binding
 		if (e.which === jump_key_code){
-			fields = $("input:not([type=hidden])").not($('[style*=none]>input')).
-				not($("input.hidden_submit"));
+			fields = get_fields();
 			field_id = fields.index(this);
 			field = fields[field_id];
 			
@@ -147,8 +145,7 @@ $.fn.overdrive = function(options) {
     };
 
     function get_field(current){
-		fields = $("input:not([type=hidden])").not($('[style*=none]>input')).
-			not($("input.hidden_submit"));
+		fields = get_fields();
 		field_id = fields.index(current);
 		field = fields[field_id];
 		return field;
@@ -248,4 +245,9 @@ function get_max(field){
 // Work out if user entered a number by checking the ascii code.
 function is_number(code){
     return (code >= 48 && code <= 57)? true : false;
+}
+
+// Get all fields except hidden
+function get_fields() {
+	return $("input:not([type=hidden]),textarea").not($('[style*=none]>input')).not($("input.hidden_submit"));
 }
