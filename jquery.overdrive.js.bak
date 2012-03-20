@@ -6,13 +6,14 @@
 // Set default options
 $.overdrive = {
     defaults: {
-	submit_after: false,
-	jump: [],
-	jump_key_code: 122,   // F11
-	submit_key_code: 0, // F12
-	field_nav: false,
-	field_up: 91,  // [ (up arrow is '38' but this has problems)
-	field_down: 93 // ] (down arrow is '40')
+		submit_after: false,
+		jump: [],
+		jump_key_code: 122,   // F11
+		enter_exclude: [],		
+		submit_key_code: 0, // F12
+		field_nav: false,
+		field_up: 91,  // [ (up arrow is '38' but this has problems)
+		field_down: 93 // ] (down arrow is '40')
     }
 };
 
@@ -25,6 +26,7 @@ $.fn.overdrive = function(options) {
     submit_after = options['submit_after'];
     jump = options['jump'];
     jump_key_code = parseInt(options['jump_key_code']);
+	enter_exclude = options['enter_exclude'];
     submit_key_code = options['submit_key_code'];
     field_nav = options['field_nav'];
     field_up = options['field_up'];
@@ -44,10 +46,9 @@ $.fn.overdrive = function(options) {
 		};
 
 		if (e.keyCode === jump_key_code) {e.preventDefault(); return false;};
+
 		if (e.which === 13) {
-			field = get_field(this);
-			
-			if (field.type === "submit" && submit_after == true)
+			if (get_field(this).type === "submit" && submit_after == true)
 				return true;
 			else
 				e.preventDefault();
@@ -99,7 +100,7 @@ $.fn.overdrive = function(options) {
 			$('form').submit();
 			e.preventDefault();
 			return false;
-		};
+		};// key==123(f12)
 
 		// Ignore nav keys on keydown.  field nav keys have to be handled through keypress.
 		if (field_nav === true){
@@ -143,7 +144,7 @@ $.fn.overdrive = function(options) {
 		};
 		return false;
     };
-
+	
     function get_field(current){
 		fields = get_fields();
 		field_id = fields.index(current);
@@ -208,14 +209,14 @@ function auto_next(field, next_field){
 
     // If user enters a number and field is at max length then override with new value.
     $(field).keydown(function(e){
-		if (is_number(get_code(e)) && get_len(field) >= get_max(this))
+		if (is_number(get_numpad_code(e)) && get_len(field) >= get_max(this))
 			$(this).select();
     });
 
     // If key is not a special key, the field is focused, the length is >= max length and user entered
     // a number then focus and select the next field.
     $(field).keyup(function(e){
-		if (!is_special(e) && $focused && get_len(field) >= get_max(this) && is_number(get_code(e)))
+		if (!is_special(e) && $focused && get_len(field) >= get_max(this) && is_number(get_numpad_code(e)))
 			$(next_field).focus().select();
 		else
 			$focused = true;
@@ -224,11 +225,11 @@ function auto_next(field, next_field){
 
 // Check if the key is Ctrl, TAB, Enter or ESC if so return true.
 function is_special(e){
-    return (!e.ctrlKey || jQuery.inArray(get_code(e), [9,13,27]) == -1)? false : true;
+    return (!e.ctrlKey || jQuery.inArray(get_numpad_code(e), [9,13,27]) == -1)? false : true;
 }
 
 // Allow for the use of the Numpad.
-function get_code(e){
+function get_numpad_code(e){
     return (e.which >= 96)? e.which - 48 : e.which;  
 };
 
