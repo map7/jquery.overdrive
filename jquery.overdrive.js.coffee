@@ -106,3 +106,6 @@ $.fn.overdrive = (options) ->
       jumped = focus_jump(get_field_id(this) + 1)
       focus_jump(0) if jumped is false # We've reached the bottom, so reset.
 
+    if e.which is submit_key_code
+      $('form').submit()
+      stop(e)
