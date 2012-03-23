@@ -105,7 +105,6 @@
           enter_key_move_field(this)
           stop(e)
 
-      alert jump_key_code
       if e.which is jump_key_code
         jumped = focus_jump(get_field_id(this) + 1)
         focus_jump(0) if jumped is false # We've reached the bottom, so reset.
