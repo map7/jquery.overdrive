@@ -6,7 +6,8 @@
 
 # Map plugin to $/jQuery so it cannot be overwritten
 (($) ->
-  $.overdrive = defaults:
+
+  defaults =
     submit_after: false
     jump: []
     jump_key_code: 122   # F11
@@ -16,19 +17,31 @@
     field_up: 38   # Ctrl+UP
     field_down: 40 # Ctrl+DOWN
 
-
   # Main overdrive chainable function
   $.fn.overdrive = (options) ->
-    options = $.extend($.overdrive.defaults, options) # combine all options with defaults
+    settings = $.extend(defaults, options) # combine all options with defaults
 
-    submit_after = options['submit_after']
-    jump = options['jump']
-    jump_key_code = options['jump_key_code']
-    enter_exclude = options['enter_exclude']
-    submit_key_code = options['submit_key_code']
-    field_nav = options['field_nav']
-    field_up = options['field_up']
-    field_down = options['field_down']
+    submit_after = settings['submit_after']
+    jump = settings['jump']
+    jump_key_code = settings['jump_key_code']
+    enter_exclude = settings['enter_exclude']
+    submit_key_code = settings['submit_key_code']
+    field_nav = settings['field_nav']
+    field_up = settings['field_up']
+    field_down = settings['field_down']
+
+    methods =
+      foobar: (params) ->
+        alert params
+
+    # Allow running publicly accessable mtehods
+    $.fn.overdrive = (method) ->
+      if methods[method]
+        methods[method].apply this, Array::slice.call(arguments, 1)
+      else if typeof method is "object" or not method
+        methods.init.apply this, arguments
+      else
+        $.error "Method \"" + method + "\" does not exist in myPlugin plugin!"
 
 
     # Add/Remove highlighting on focused field
