@@ -31,8 +31,12 @@
     field_down = settings['field_down']
 
     methods =
-      foobar: (params) ->
-        alert params
+      # Move field in a direction
+      move_field: (field,dir) ->
+        field_id = get_field_id(field)
+        if (dir is 1 and field_id <= get_bottom()) or (dir is -1 and field_id isnt 0)
+          next_field = get_fields()[field_id + dir]
+          next_field.focus()
 
     # Allow running publicly accessable mtehods
     $.fn.overdrive = (method) ->
@@ -42,7 +46,6 @@
         methods.init.apply this, arguments
       else
         $.error "Method \"" + method + "\" does not exist in myPlugin plugin!"
-
 
     # Add/Remove highlighting on focused field
     $(":input").focus( -> $(this).addClass('highlight'); $(this).select())
@@ -75,13 +78,6 @@
       false
 
     # Move field in a direction
-    move_field = (field,dir) ->
-      field_id = get_field_id(field)
-      if (dir is 1 and field_id <= get_bottom()) or (dir is -1 and field_id isnt 0)
-        next_field = get_fields()[field_id + dir]
-        next_field.focus()
-
-    # Move field in a direction
     enter_key_move_field = (field) ->
       field_id = get_field_id(field)
 
@@ -105,8 +101,8 @@
 
     $(this).keypress (e) ->
       if field_nav is true
-        move_field(this,1) if e.ctrlKey && code(e) is field_down
-        move_field(this,-1) if e.ctrlKey && code(e) is field_up
+        $.fn.overdrive('move_field',this,1) if e.ctrlKey && code(e) is field_down
+        $.fn.overdrive('move_field',this,-1) if e.ctrlKey && code(e) is field_up
 
       stop(e) if e.keyCode is jump_key_code # Ignore F11 key for keypress
 
